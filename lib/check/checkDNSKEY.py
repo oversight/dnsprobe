@@ -9,14 +9,15 @@ class CheckDNSKEY(Base):
 
     @staticmethod
     def on_item(itm):
-        _, protocol, algorithm = itm['data'].split(' ')[:3]
-        key = ''.join(key[3:])
+        data = itm['data'].split(' ')
+        _, protocol, algorithm = data[:3]
+        key = ''.join(data[3:])
         return {
             'algorithm': algorithm,
             # 'flag': itm['flag'],  # TODO not present
             'key': key,
             # 'keyID': itm['keyID'],  # TODO not present
-            'name': dns.dnssec.key_id(key),
+            'name': key,
             'protocol': protocol,
             'ttl': itm['ttl'],
         }
