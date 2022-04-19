@@ -45,7 +45,6 @@ class Base:
             # TODO if None? return None?
             if data is None:
                 return None
-            # TODO add measurement time
         except Exception:
             logging.exception('DNS query error\n')
             raise
