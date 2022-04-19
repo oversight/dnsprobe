@@ -13,5 +13,4 @@ class CheckMX(Base):
             'name': address,
             'preference': preference,
             'ttl': itm['ttl'],
-            'measurement_time': itm['measurement_time']
         }

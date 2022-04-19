@@ -15,5 +15,4 @@ class CheckDS(Base):
             'keyTag': key_tag,
             'name': key_tag,
             'ttl': itm['ttl'],
-            'measurement_time': itm['measurement_time']
         }

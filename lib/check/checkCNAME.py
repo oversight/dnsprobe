@@ -13,7 +13,6 @@ class CheckCNAME(Base):
             'name': 'cname',
             'address': itm['data'],
             'ttl': itm['ttl'],
-            'measurement_time': itm['measurement_time']
         }
 
     @classmethod

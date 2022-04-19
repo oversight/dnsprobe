@@ -19,5 +19,4 @@ class CheckDNSKEY(Base):
             'name': dns.dnssec.key_id(key),
             'protocol': protocol,
             'ttl': itm['ttl'],
-            'measurement_time': itm['measurement_time']
         }

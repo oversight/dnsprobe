@@ -41,7 +41,8 @@ class Base:
     async def get_data(cls, fqdn: str):
         data = []
         try:
-            data = await cls.run_check(fqdn, cls.type_name)
+            # TODO what todo with measurement_time
+            data, measurement_time = await cls.run_check(fqdn)
             # TODO if None? return None?
             if data is None:
                 return None

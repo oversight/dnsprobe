@@ -12,5 +12,4 @@ class CheckCAA(Base):
             'name': itm['data'],
             'record': itm['data'],
             'ttl': itm['ttl'],
-            'measurement_time': itm['measurement_time']
         }

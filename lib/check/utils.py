@@ -28,6 +28,8 @@ def to_dict(message):
 
 
 async def dns_query(name, query_type):
+    response = None
+    measurement_time = None
     try:
         aresolver = dns.asyncresolver.Resolver()
         # TODO REMOVE following line; used to test code for DS and DNSKEY;
@@ -41,8 +43,9 @@ async def dns_query(name, query_type):
         a = await aresolver.resolve(name, query_type)
         measurement_time = asyncio.get_event_loop().time() - start
     except Exception as err:
-        logging.exception(err)
+        logging.error(err)
     else:
         response = to_dict(a.response)
-        response['measurement_time'] = measurement_time
-        return to_dict(a.response)
+    finally:
+        return (response, measurement_time)
+

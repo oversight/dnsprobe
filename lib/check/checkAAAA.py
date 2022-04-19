@@ -12,5 +12,4 @@ class CheckAAAA(Base):
             'name': itm['data'],
             'address': itm['data'],
             'ttl': itm['ttl'],
-            'measurement_time': itm['measurement_time']
         }

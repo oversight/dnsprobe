@@ -22,5 +22,4 @@ class CheckPTR(Base):
             'address': itm['data'],
             'name': itm['data'],
             'ttl': itm['ttl'],
-            'measurement_time': itm['measurement_time']
         }

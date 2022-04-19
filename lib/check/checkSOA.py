@@ -15,5 +15,4 @@ class CheckSOA(Base):
             'name': primary_ns,
             'primaryNS': primary_ns,
             'ttl': itm['ttl'],
-            'measurement_time': itm['measurement_time']
         }
