@@ -14,9 +14,9 @@ class Base:
         try:
             asset_id = data['hostUuid']
             config = data['hostConfig']['probeConfig']['dnsProbe']
-            ip4 = config['ip4']
+            # ip4 = config['ip4']
             fqdn = config['fqdn']
-            dns_server = config['dnsServer']
+            # dns_server = config['dnsServer']
             interval = data.get('checkConfig', {}).get('metaConfig', {}).get(
                 'checkInterval')
             assert interval is None or isinstance(interval, int)
