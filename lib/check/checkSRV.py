@@ -11,9 +11,9 @@ class CheckSRV(Base):
         priority, weight, port, target = itm['data'].split(' ')
         return {
             'name': target,
-            'port': port,
-            'priority': priority,
-            'target': target,
-            'ttl': itm['ttl'],
-            'weight': weight,
+            'port': int(port),
+            'priority': int(priority),
+            'target': target,  # TODO?
+            'ttl': int(itm['ttl']),
+            'weight': int(weight),
         }

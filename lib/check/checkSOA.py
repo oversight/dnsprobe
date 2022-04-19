@@ -14,5 +14,5 @@ class CheckSOA(Base):
             'email': email,
             'name': primary_ns,
             'primaryNS': primary_ns,
-            'ttl': itm['ttl'],
+            'ttl': int(itm['ttl']),
         }

@@ -11,5 +11,5 @@ class CheckTXT(Base):
         return {
             'record': itm['data'],
             'name': itm['data'],
-            'ttl': itm['ttl'],
+            'ttl': int(itm['ttl']),
         }

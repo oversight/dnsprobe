@@ -11,5 +11,5 @@ class CheckCAA(Base):
         return {
             'name': itm['data'],
             'record': itm['data'],
-            'ttl': itm['ttl'],
+            'ttl': int(itm['ttl']),
         }

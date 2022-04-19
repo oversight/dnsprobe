@@ -11,5 +11,5 @@ class CheckA(Base):
         return {
             'name': itm['data'],
             'address': itm['data'],
-            'ttl': itm['ttl'],
+            'ttl': int(itm['ttl']),
         }

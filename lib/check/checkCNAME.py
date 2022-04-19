@@ -11,5 +11,5 @@ class CheckCNAME(Base):
         return {
             'name': 'cname',
             'address': itm['data'],
-            'ttl': itm['ttl'],
+            'ttl': int(itm['ttl']),
         }

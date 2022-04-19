@@ -13,11 +13,11 @@ class CheckDNSKEY(Base):
         _, protocol, algorithm = data[:3]
         key = ''.join(data[3:])
         return {
-            'algorithm': algorithm,
+            'algorithm': int(algorithm),
             # 'flag': itm['flag'],  # TODO not present
             'key': key,
             # 'keyID': itm['keyID'],  # TODO not present
             'name': key,
-            'protocol': protocol,
-            'ttl': itm['ttl'],
+            'protocol': int(protocol),
+            'ttl': int(itm['ttl']),
         }

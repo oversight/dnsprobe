@@ -11,6 +11,6 @@ class CheckMX(Base):
         return {
             'address': address,
             'name': address,
-            'preference': preference,
-            'ttl': itm['ttl'],
+            'preference': int(preference),
+            'ttl': int(itm['ttl']),
         }

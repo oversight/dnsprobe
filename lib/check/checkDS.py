@@ -9,10 +9,10 @@ class CheckDS(Base):
     def on_item(itm):
         key_tag, algorithm, digest_type, digest = itm['data'].split(' ')
         return {
-            'algorithm': algorithm,
+            'algorithm': int(algorithm),
             'digest': digest,
-            'digestType': digest_type,
-            'keyTag': key_tag,
+            'digestType': int(digest_type),
+            'keyTag': int(key_tag),
             'name': key_tag,
-            'ttl': itm['ttl'],
+            'ttl': int(itm['ttl']),
         }

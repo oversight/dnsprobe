@@ -11,5 +11,5 @@ class CheckNS(Base):
         return {
             'address': itm['data'],
             'name': itm['data'],
-            'ttl': itm['ttl'],
+            'ttl': int(itm['ttl']),
         }
