@@ -8,9 +8,12 @@ class CheckSRV(Base):
 
     @staticmethod
     def on_item(itm):
+        priority, weight, port, target = itm['data'].split(' ')
         return {
-            'address': itm['data'],  # TODO
-            'name': itm['data'],  # TODO
+            'name': target,
+            'port': port,
+            'priority': priority,
+            'target': target,
             'ttl': itm['ttl'],
-            'measurement_time': itm['measurement_time']
+            'weight': weight,
         }
