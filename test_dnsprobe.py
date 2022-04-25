@@ -42,10 +42,6 @@ class TestProbe(unittest.TestCase):
         name = 'CheckCNAME'
         _setup(name, 'docs.thingsdb.net')
 
-    def test_check_dnskey(self):
-        name = 'CheckDNSKEY'
-        _setup(name, 'siridb.com')
-
     def test_check_ds(self):
         name = 'CheckDS'
         _setup(name, 'siridb.com')
@@ -81,7 +77,6 @@ if __name__ == '__main__':
     suite.addTest(TestProbe('test_check_aaaa'))
     suite.addTest(TestProbe('test_check_caa'))
     suite.addTest(TestProbe('test_check_cname'))
-    suite.addTest(TestProbe('test_check_dnskey'))
     suite.addTest(TestProbe('test_check_ds'))
     suite.addTest(TestProbe('test_check_mx'))
     suite.addTest(TestProbe('test_check_ns'))

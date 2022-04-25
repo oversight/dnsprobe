@@ -2,7 +2,6 @@ from .checkA import CheckA
 from .checkAAAA import CheckAAAA
 from .checkCAA import CheckCAA
 from .checkCNAME import CheckCNAME
-from .checkDNSKEY import CheckDNSKEY
 from .checkDS import CheckDS
 from .checkMX import CheckMX
 from .checkNS import CheckNS
@@ -17,7 +16,6 @@ CHECKS = {
     'CheckAAAA': CheckAAAA,
     'CheckCAA': CheckCAA,
     'CheckCNAME': CheckCNAME,
-    'CheckDNSKEY': CheckDNSKEY,
     'CheckDS': CheckDS,
     'CheckMX': CheckMX,
     'CheckNS': CheckNS,
