@@ -4,21 +4,23 @@ import unittest
 from lib.check import CHECKS
 
 
-def _get_hostconfig(fqdn):
+def _get_hostconfig(fqdn, ptr, name_servers):
     return {
     'probeConfig': {
         'dnsProbe': {
             'fqdn': fqdn,
+            'ptr': ptr,
+            'nameServers': name_servers
         }
     }
 }
 
 
-def _setup(name, fqdn):
+def _setup(name, fqdn=None, ptr=None, name_servers=['8.8.8.8']):
     data = {
         'hostUuid': '',
         'checkName': name,
-        'hostConfig': _get_hostconfig(fqdn),
+        'hostConfig': _get_hostconfig(fqdn, ptr, name_servers),
     }
     check = CHECKS[name]
     asyncio.run(check.run(data, {}))
@@ -56,11 +58,11 @@ class TestProbe(unittest.TestCase):
 
     def test_check_ptr(self):
         name = 'CheckPTR'
-        _setup(name, '8.8.8.8')
+        _setup(name, ptr='4.4.8.8.in-addr.arpa.')
 
     def test_check_soa(self):
         name = 'CheckSOA'
-        _setup(name, 'siridb.com')
+        _setup(name, 'cesbit.com')
 
     def test_check_srv(self):
         name = 'CheckSRV'

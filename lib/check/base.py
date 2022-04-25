@@ -1,6 +1,9 @@
 import asyncio
 import logging
 
+from agentcoreclient import IgnoreResultException
+from dns.resolver import NoAnswer
+
 from .utils import dns_query
 
 
@@ -14,9 +17,9 @@ class Base:
         try:
             asset_id = data['hostUuid']
             config = data['hostConfig']['probeConfig']['dnsProbe']
-            # ip4 = config['ip4']
-            fqdn = config['fqdn']
-            # dns_server = config['dnsServer']
+            fqdn = config.get('fqdn', None)
+            ptr = config.get('ptr', None)
+            name_servers = config.get('nameServers', None)
             interval = data.get('checkConfig', {}).get('metaConfig', {}).get(
                 'checkInterval')
             assert interval is None or isinstance(interval, int)
@@ -27,7 +30,7 @@ class Base:
         max_runtime = .8 * (interval or cls.interval)
         try:
             state_data = await asyncio.wait_for(
-                cls.get_data(fqdn),
+                cls.get_data(fqdn, ptr, name_servers),
                 timeout=max_runtime
             )
         except asyncio.TimeoutError:
@@ -38,20 +41,21 @@ class Base:
             return state_data
 
     @classmethod
-    async def get_data(cls, fqdn: str):
+    async def get_data(cls, fqdn: str, ptr: str, name_servers: list):
         data = []
         try:
-            # TODO what todo with measurement_time
-            data, measurement_time = await cls.run_check(fqdn)
-            # TODO if None? return None?
-            if data is None:
-                return None
+            data, measurement_time = await cls.run_check(
+                fqdn, ptr, name_servers)
+
+        except NoAnswer:
+            print('IgnoreResultException')
+            raise IgnoreResultException
         except Exception:
             logging.exception('DNS query error\n')
             raise
 
         try:
-            state = cls.iterate_results(data)
+            state = cls.iterate_results(data, measurement_time)
         except Exception:
             logging.exception('DNS parse error\n')
             raise
@@ -59,9 +63,11 @@ class Base:
         return state
 
     @classmethod
-    async def run_check(cls, fqdn: str):
-        return await dns_query(fqdn, cls.type_name)
-
+    async def run_check(cls, fqdn: str, ptr: str, name_servers: list):
+        if fqdn is None:
+            raise Exception(
+                f'{cls.__name__} did not run; fqdn is not provided')
+        return await dns_query(fqdn, cls.type_name, name_servers)
 
     @classmethod
     def on_item(itm: dict):
@@ -77,9 +83,14 @@ class Base:
         return out
 
     @classmethod
-    def iterate_results(cls, data: list):
+    def iterate_results(cls, data: list, measurement_time: float):
         itms = cls.on_items(data)
-
         state = {}
         state[cls.type_name] = itms
+        state['stat'] = {
+            'timeit': {
+                'name': 'timeit',
+                'measuredTime': measurement_time
+            }
+        }
         return state

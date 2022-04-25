@@ -1,5 +1,4 @@
 import dns.reversename
-import logging
 
 from .base import Base
 from .utils import dns_query
@@ -11,17 +10,15 @@ class CheckPTR(Base):
     type_name = 'ptr'
 
     @classmethod
-    async def run_check(cls, ip_address: str):
-        response = (None, None)
-        try:
-            response = await dns_query(
-                dns.reversename.from_address(ip_address),
-                cls.type_name
-            )
-        except Exception as err:
-            logging.error(err)
-        finally:
-            return response
+    async def run_check(cls, fqdn: str, ptr: str, name_servers: list):
+        if ptr is None:
+            raise Exception(
+                f'{cls.__name__} did not run; ptr is not provided')
+        return await dns_query(
+            ptr,
+            cls.type_name,
+            name_servers
+        )
 
     @staticmethod
     def on_item(itm):

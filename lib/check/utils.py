@@ -2,7 +2,6 @@ import asyncio
 import copy
 import dns.asyncresolver
 import dns.message
-import logging
 
 
 def make_rr(simple, rdata):
@@ -27,25 +26,21 @@ def to_dict(message):
     return simple
 
 
-async def dns_query(name, query_type):
+async def dns_query(qname: str, query_type: str, name_servers: list):
     response = None
     measurement_time = None
     try:
         aresolver = dns.asyncresolver.Resolver()
-        # TODO REMOVE following line; used to test code for DS and DNSKEY;
-        # due to ubuntu issue:
-        # "dns.resolver.NoNameservers: All nameservers failed to answer the
-        # query siridb.com. IN DNSKEY: Server 127.0.0.53 TCP port 53 answered
-        # [Errno 99] Cannot assign requested address"
-        aresolver.nameservers = ['8.8.8.8']
+        if name_servers is not None:
+            aresolver.nameservers = name_servers
 
         start = asyncio.get_event_loop().time()
-        a = await aresolver.resolve(name, query_type)
+        a = await aresolver.resolve(qname, query_type)
         measurement_time = asyncio.get_event_loop().time() - start
     except Exception as err:
-        logging.error(err)
+        raise
     else:
         response = to_dict(a.response)
-    finally:
-        return (response, measurement_time)
+    print(query_type, response)
+    return (response, measurement_time)
 

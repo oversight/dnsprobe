@@ -13,7 +13,7 @@ class CheckSRV(Base):
             'name': target,
             'port': int(port),
             'priority': int(priority),
-            'target': target,  # TODO?
+            'target': target,
             'ttl': int(itm['ttl']),
             'weight': int(weight),
         }

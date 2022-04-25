@@ -8,11 +8,16 @@ class CheckSOA(Base):
 
     @staticmethod
     def on_item(itm):
-        # TODO metrics?
-        primary_ns, email = itm['data'].split(' ')[:2]
+        primary_ns, responsible_name, serial, refresh, retry, expire, minimum \
+            = itm['data'].split(' ')
         return {
-            'email': email,
             'name': primary_ns,
             'primaryNS': primary_ns,
+            'responsibleName': responsible_name,
+            'serial': serial,
+            'refresh': refresh,
+            'retry': retry,
+            'expire': expire,
+            'minimum': minimum,
             'ttl': int(itm['ttl']),
         }
