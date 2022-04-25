@@ -48,7 +48,6 @@ class Base:
                 fqdn, ptr, name_servers)
 
         except NoAnswer:
-            print('IgnoreResultException')
             raise IgnoreResultException
         except Exception:
             logging.exception('DNS query error\n')
