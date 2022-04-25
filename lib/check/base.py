@@ -23,8 +23,8 @@ class Base:
             interval = data.get('checkConfig', {}).get('metaConfig', {}).get(
                 'checkInterval')
             assert interval is None or isinstance(interval, int)
-        except Exception as e:
-            logging.error(f'invalid check configuration: `{e}`')
+        except Exception as err:
+            logging.error(f'invalid check configuration: `{err}`')
             return
 
         max_runtime = .8 * (interval or cls.interval)
@@ -35,8 +35,8 @@ class Base:
             )
         except asyncio.TimeoutError:
             raise Exception('Check timed out.')
-        except Exception as e:
-            raise Exception(f'Check error: {e.__class__.__name__}: {e}')
+        except Exception as err:
+            raise Exception(f'Check error: {err.__class__.__name__}: {err}')
         else:
             return state_data
 
@@ -69,7 +69,7 @@ class Base:
                 f'{cls.__name__} did not run; fqdn is not provided')
         return await dns_query(fqdn, cls.type_name, name_servers)
 
-    @classmethod
+    @staticmethod
     def on_item(itm: dict):
         return itm
 

@@ -1,5 +1,6 @@
 from .base import Base
 
+
 class CheckMX(Base):
 
     required = True

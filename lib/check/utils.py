@@ -15,8 +15,7 @@ def flatten_rrset(rrs):
     if len(rrs) > 0:
         simple["ttl"] = rrs.ttl
         return [make_rr(simple, rdata) for rdata in rrs]
-    else:
-        return [simple]
+    return [simple]
 
 
 def to_dict(message):
@@ -27,20 +26,13 @@ def to_dict(message):
 
 
 async def dns_query(qname: str, query_type: str, name_servers: list):
-    response = None
-    measurement_time = None
-    try:
-        aresolver = dns.asyncresolver.Resolver()
-        if name_servers is not None:
-            aresolver.nameservers = name_servers
+    aresolver = dns.asyncresolver.Resolver()
 
-        start = asyncio.get_event_loop().time()
-        a = await aresolver.resolve(qname, query_type)
-        measurement_time = asyncio.get_event_loop().time() - start
-    except Exception as err:
-        raise
-    else:
-        response = to_dict(a.response)
-    print(query_type, response)
+    if name_servers is not None:
+        aresolver.nameservers = name_servers
+
+    start = asyncio.get_event_loop().time()
+    a = await aresolver.resolve(qname, query_type)
+    measurement_time = asyncio.get_event_loop().time() - start
+    response = to_dict(a.response)
     return (response, measurement_time)
-

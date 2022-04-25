@@ -1,5 +1,3 @@
-import dns.reversename
-
 from .base import Base
 from .utils import dns_query
 

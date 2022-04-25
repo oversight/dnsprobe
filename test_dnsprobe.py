@@ -6,14 +6,14 @@ from lib.check import CHECKS
 
 def _get_hostconfig(fqdn, ptr, name_servers):
     return {
-    'probeConfig': {
-        'dnsProbe': {
-            'fqdn': fqdn,
-            'ptr': ptr,
-            'nameServers': name_servers
+        'probeConfig': {
+            'dnsProbe': {
+                'fqdn': fqdn,
+                'ptr': ptr,
+                'nameServers': name_servers
+            }
         }
     }
-}
 
 
 def _setup(name, fqdn=None, ptr=None, name_servers=['8.8.8.8']):
@@ -72,6 +72,10 @@ class TestProbe(unittest.TestCase):
         name = 'CheckTXT'
         _setup(name, 'siridb.com')
 
+    def test_check_no_awnser(self):
+        name = 'CheckCAA'
+        _setup(name, 'siridb.com')
+
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
@@ -86,6 +90,7 @@ if __name__ == '__main__':
     suite.addTest(TestProbe('test_check_soa'))
     suite.addTest(TestProbe('test_check_srv'))
     suite.addTest(TestProbe('test_check_txt'))
+    suite.addTest(TestProbe('test_check_no_awnser'))
 
     runner = unittest.TextTestRunner()
     runner.run(suite)
