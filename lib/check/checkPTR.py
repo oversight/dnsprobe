@@ -9,7 +9,7 @@ class CheckPTR(Base):
 
     @classmethod
     async def run_check(cls, fqdn: str, ptr: str, name_servers: list):
-        if ptr is None:
+        if not ptr:
             raise Exception(
                 f'{cls.__name__} did not run; ptr is not provided')
         return await dns_query(

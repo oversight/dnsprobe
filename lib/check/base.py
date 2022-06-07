@@ -63,7 +63,7 @@ class Base:
 
     @classmethod
     async def run_check(cls, fqdn: str, ptr: str, name_servers: list):
-        if fqdn is None:
+        if not fqdn:
             raise Exception(
                 f'{cls.__name__} did not run; fqdn is not provided')
         return await dns_query(fqdn, cls.type_name, name_servers)
