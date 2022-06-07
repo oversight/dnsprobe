@@ -72,6 +72,10 @@ class TestProbe(unittest.TestCase):
         name = 'CheckTXT'
         _setup(name, 'siridb.com')
 
+    def test_check_caa_no_answer(self):
+        name = 'CheckCAA'
+        _setup(name, 'cesbit.com')
+
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
@@ -86,6 +90,7 @@ if __name__ == '__main__':
     suite.addTest(TestProbe('test_check_soa'))
     suite.addTest(TestProbe('test_check_srv'))
     suite.addTest(TestProbe('test_check_txt'))
+    suite.addTest(TestProbe('test_check_caa_no_answer'))
 
     runner = unittest.TextTestRunner()
     runner.run(suite)
