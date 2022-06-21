@@ -35,6 +35,10 @@ class Base:
             )
         except asyncio.TimeoutError:
             raise Exception('Check timed out.')
+        except NoAnswer:
+            raise IgnoreResultException
+        except IgnoreResultException:
+            raise
         except Exception as err:
             raise Exception(f'Check error: {err.__class__.__name__}: {err}')
         else:
@@ -42,29 +46,16 @@ class Base:
 
     @classmethod
     async def get_data(cls, fqdn: str, ptr: str, name_servers: list):
-        data = []
-        try:
-            data, measurement_time = await cls.run_check(
-                fqdn, ptr, name_servers)
+        data, measurement_time = await cls.run_check(
+            fqdn, ptr, name_servers)
 
-        except NoAnswer:
-            raise IgnoreResultException
-        except Exception:
-            logging.exception('DNS query error\n')
-            raise
-
-        try:
-            state = cls.iterate_results(data, measurement_time)
-        except Exception:
-            logging.exception('DNS parse error\n')
-            raise
-
+        state = cls.iterate_results(data, measurement_time)
         return state
 
     @classmethod
     async def run_check(cls, fqdn: str, ptr: str, name_servers: list):
         if not fqdn:
-            raise Exception(
+            raise IgnoreResultException(
                 f'{cls.__name__} did not run; fqdn is not provided')
         return await dns_query(fqdn, cls.type_name, name_servers)
 
